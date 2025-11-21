@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hubert – Portfolio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.5;
+            background: #0f172a;
+            color: #e5e7eb;
+            padding: 2rem 1rem;
+        }
+
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tagline {
+            color: #9ca3af;
+            margin-bottom: 0.75rem;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: #020617;
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid #1f2937;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .chip-row {
+            margin: 0.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chip {
+            font-size: 0.75rem;
+            border-radius: 999px;
+            padding: 0.15rem 0.6rem;
+            border: 1px solid #374151;
+        }
+
+        .card-links a {
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin-right: 0.75rem;
+            color: #38bdf8;
+        }
+
+        .card-links a:hover {
+            text-decoration: underline;
+        }
+
+        a {
+            color: #38bdf8;
+        }
+
+        section + section {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>Hubert Tros</h1>
+        <p class="tagline">Analityka danych · Automatyzacja · Technologie usprawniające codzienne życie</p>
+        <p>
+            Interesują mnie rozwiązania, które realnie usprawniają codzienne życie oraz świat analizy danych
+            i automatyzacji. Poniżej kilka projektów, nad którymi pracowałem.
+        </p>
+    </header>
+
+    <section>
+        <h2>Projekty</h2>
+        <div class="projects">
+            <!-- Projekt BPMN z uczelni -->
+            <div class="card">
+                <h3>Wyjazd pracownika na konferencję – proces BPMN</h3>
+                <p>
+                    Model procesu delegacji pracownika na konferencję naukową przygotowany w notacji BPMN
+                    jako projekt uczelniany.
+                </p>
+                <div class="chip-row">
+                    <span class="chip">BPMN</span>
+                    <span class="chip">Modelowanie procesów</span>
+                    <span class="chip">Projekt akademicki</span>
+                </div>
+                <div class="card-links">
+                    <!-- podmień link na swój plik / obrazek -->
+                    <a href="#" target="_blank" rel="noopener">Zobacz diagram</a>
+                </div>
+            </div>
+
+            <!-- Przykład innego projektu -->
+            <div class="card">
+                <h3>Nazwa innego projektu</h3>
+                <p>
+                    Krótki opis co robi projekt – np. aplikacja, skrypt analityczny, dashboard itp.
+                </p>
+                <div class="chip-row">
+                    <span class="chip">Python</span>
+                    <span class="chip">GitHub</span>
+                </div>
+                <div class="card-links">
+                    <a href="https://github.com/Tros212/My_Projects" target="_blank" rel="noopener">Kod na GitHubie</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Kontakt</h2>
+        <p>Email: <a href="mailto:twoj.mail@example.com">twoj.mail@example.com</a></p>
+        <p>GitHub: <a href="https://github.com/Tros212" target="_blank" rel="noopener">github.com/Tros212</a></p>
+    </section>
+</main>
+</body>
+</html>
