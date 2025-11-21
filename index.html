@@ -1,156 +1,266 @@
+
+<?php
+
+require_once('connection.php'); // Połączenie z bazą danych
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+
+  $sql = "SELECT * FROM uzytkownicy WHERE nazwa='$username' AND haslo='$password'";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows > 0) {
+    // Użytkownik o podanych danych istnieje
+    $row = $result->fetch_assoc(); // Pobranie pierwszego wiersza jako tablica asocjacyjna
+    $username = $row['nazwa']; // Pobranie nazwy użytkownika
+    $_SESSION['logged_in'] = true; // Ustawienie, że użytkownik jest zalogowany
+    $_SESSION['username'] = $username; // Przechowanie nazwy użytkownika w sesji
+    
+    header("Location: index.php"); 
+    exit();
+} else {
+    // Użytkownik o podanych danych nie istnieje
+    echo '<script>alert("Użytkownik nie istnieje"); window.location.href = "LOG.php";</script>';
+}
+}
+
+
+?>
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hubert – Portfolio</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            line-height: 1.5;
-            background: #0f172a;
-            color: #e5e7eb;
-            padding: 2rem 1rem;
-        }
-
-        main {
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        header {
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 0.25rem;
-        }
-
-        h2 {
-            font-size: 1.25rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .tagline {
-            color: #9ca3af;
-            margin-bottom: 0.75rem;
-        }
-
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1rem;
-        }
-
-        .card {
-            background: #020617;
-            border-radius: 0.75rem;
-            padding: 1rem 1.25rem;
-            border: 1px solid #1f2937;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-        }
-
-        .card h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .chip-row {
-            margin: 0.5rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .chip {
-            font-size: 0.75rem;
-            border-radius: 999px;
-            padding: 0.15rem 0.6rem;
-            border: 1px solid #374151;
-        }
-
-        .card-links a {
-            font-size: 0.85rem;
-            text-decoration: none;
-            margin-right: 0.75rem;
-            color: #38bdf8;
-        }
-
-        .card-links a:hover {
-            text-decoration: underline;
-        }
-
-        a {
-            color: #38bdf8;
-        }
-
-        section + section {
-            margin-top: 2rem;
-        }
-    </style>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ja programista</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+          
 </head>
-<body>
-<main>
-    <header>
-        <h1>Hubert Tros</h1>
-        <p class="tagline">Analityka danych · Automatyzacja · Technologie usprawniające codzienne życie</p>
-        <p>
-            Interesują mnie rozwiązania, które realnie usprawniają codzienne życie oraz świat analizy danych
-            i automatyzacji. Poniżej kilka projektów, nad którymi pracowałem.
-        </p>
-    </header>
 
-    <section>
-        <h2>Projekty</h2>
-        <div class="projects">
-            <!-- Projekt BPMN z uczelni -->
-            <div class="card">
-                <h3>Wyjazd pracownika na konferencję – proces BPMN</h3>
-                <p>
-                    Model procesu delegacji pracownika na konferencję naukową przygotowany w notacji BPMN
-                    jako projekt uczelniany.
-                </p>
-                <div class="chip-row">
-                    <span class="chip">BPMN</span>
-                    <span class="chip">Modelowanie procesów</span>
-                    <span class="chip">Projekt akademicki</span>
-                </div>
-                <div class="card-links">
-                    <!-- podmień link na swój plik / obrazek -->
-                    <a href="#" target="_blank" rel="noopener">Zobacz diagram</a>
-                </div>
-            </div>
+<body class="d-flex flex-column min-vh-100">
 
-            <!-- Przykład innego projektu -->
-            <div class="card">
-                <h3>Nazwa innego projektu</h3>
-                <p>
-                    Krótki opis co robi projekt – np. aplikacja, skrypt analityczny, dashboard itp.
-                </p>
-                <div class="chip-row">
-                    <span class="chip">Python</span>
-                    <span class="chip">GitHub</span>
-                </div>
-                <div class="card-links">
-                    <a href="https://github.com/Tros212/My_Projects" target="_blank" rel="noopener">Kod na GitHubie</a>
-                </div>
-            </div>
+  <section id="strona główna">
+    <!-- pasek nawigacji -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Ja programista</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.php">Strona główna</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardown1" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"">Język
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                        <a class="dropdown-item" href="python.html">Python</a>
+                        <a class="dropdown-item" href="HTML.html">Html</a>
+                        <a class="dropdown-item" href="CSS.html">CSS</a>
+                        <a class="dropdown-item" href="MySQL.html">MySQL</a>
+                        <a class="dropdown-item" href="PHP.html">PHP</a>
+                        <a class="dropdown-item" href="JavaSript.html">JavaScript</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#O nas">O nas</a>
+                </li>
+                
+                <li class="nav-item dropdown mr-5">
+                <?php
+                // Sprawdź, czy użytkownik jest zalogowany
+                if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
+                    // Użytkownik jest zalogowany
+                    echo '<li class="nav-item">';
+                    echo '<a class="nav-link" href="wyloguj.php" >Wyloguj się</a>';
+                    echo '</li>';
+                } else {
+                    // Użytkownik nie jest zalogowany
+                    echo '<li class="nav-item">';
+                    echo '<a class="nav-link" href="LOG.php">Zaloguj się</a>';
+                    echo '</li>';
+                }
+            ?>
+                </li>
+            </ul>
         </div>
-    </section>
+    </nav>
 
-    <section>
-        <h2>Kontakt</h2>
-        <p>Email: <a href="mailto:twoj.mail@example.com">twoj.mail@example.com</a></p>
-        <p>GitHub: <a href="https://github.com/Tros212" target="_blank" rel="noopener">github.com/Tros212</a></p>
-    </section>
-</main>
+
+
+  
+    <!-- Zdjęcie z tekstem -->
+    <div class="jumbotron text-center align-items-center" id="przywitanie">
+      <video autoplay muted loop id="myVideo1">
+        <source src="video (2160p).mp4" type="video/mp4">
+      </video>
+      <h1 class="text-24">Zapraszamy na stronę o programowaniu!</h1>
+      <p class="text-50">Dołącz do naszej społeczności programistycznej i rozwijaj swoje umiejętności.</p>
+      <a class="btn btn-primary" href="#" role="button">Zaczynajmy!</a>
+    </div>
+
+    <!-- Kategorie -->
+    
+    <div class="jumbotron text-center align-items-center" id="kategoria">
+      <h1>Wybierz swój język programowania!</h1>
+    </div>
+     
+    <div class="container-lg">
+      <!-- Pierwsza sekcja z trzema kartami -->
+      <div class="row">
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <a href="python.html" class="card-link">
+            <div class="card mx-auto mb-4" style="max-width: 18rem;">
+              <img class="card-img-top" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Card image cap1">
+              <div class="card-body">
+                <p class="card-text text-center"><b>Python</b></p>
+              </div>
+            </div>
+          </a>  
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <a href="HTML.html" class="card-link">
+            <div class="card mx-auto mb-4" style="max-width: 18rem;">
+              <img class="card-img-top" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="Card image cap2">
+              <div class="card-body">
+                <p class="card-text text-center"><b>HTML</b></p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <a href="CSS.html" class="card-link">
+            <div class="card mx-auto mb-4" style="max-width: 18rem;">
+              <img class="card-img-top" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="Card image cap3">
+              <div class="card-body">
+                 <p class="card-text text-center"><b>CSS</b></p>
+              </div>
+            </div>
+          </a>
+        </div> 
+      </div>      
+      <!-- Druga sekcja z kolejnymi trzema kartami -->
+      <div class="row">
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <a href="PHP.html" class="card-link">
+            <div class="card mx-auto" style="max-width: 18rem;">
+              <img class="card-img-top" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="Card image cap4">
+              <div class="card-body">
+                <p class="card-text text-center"><b>PHP</b></p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <a href="MySQL.html" class="card-link">
+            <div class="card mx-auto" style="max-width: 18rem;">
+              <img class="card-img-top" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="Card image cap5">
+              <div class="card-body">
+                <p class="card-text text-center"><b>MySQL</b></p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <a href="JavaSript.html" class="card-link">
+            <div class="card mx-auto" style="max-width: 18rem;">
+              <img class="card-img-top" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="Card image cap6">
+              <div class="card-body">
+                <p class="card-text text-center"><b>JavaScript</b></p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <hr class="my-5"> <!-- Linia oddzielająca -->
+  </section>
+
+    <!-- O nas -->
+  <section id="O nas">
+    <!-- Kim jesteśmy? -->
+    <div class="container text-center" id="My">
+      <div class="row">
+        <div class="col">
+          <h2 class="section-title">Kim jesteśmy?</h2>
+          <p>
+            <b>Jesteśmy zespołem entuzjastów programowania, dla których rozwój w tej dziedzinie to prawdziwa pasja.
+            Naszą misją jest stworzenie miejsca, w którym każdy może rozwijać swoje umiejętności programistyczne
+            i zanurzyć się w fascynującym świecie kodowania.</b>
+          </p>
+          <p>
+            <b>Ta strona powstała z myślą o Tobie - entuzjaście technologii, który pragnie poszerzać swoją wiedzę
+            i umiejętności, zdobywać doświadczenie i rozwijać się jako programista.</b>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div id="karuzela" class="carousel slide mx-auto" style="max-width: 69rem;" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="pexels-fauxels-3184418.jpg" class="d-block w-100" alt="zdj1">
+          <div class="carousel-caption d-none d-md-block">
+            <h1 class="display-2">Powodzenia!</h1>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="pexels-steve-johnson-1109354.jpg" class="d-block w-100" alt="zdj2">
+          <div class="carousel-caption d-none d-md-block">
+            <h1 class="display-2">Dasz radę!</h1>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="pexels-tima-miroshnichenko-5380649.jpg" class="d-block w-100" alt="zdj3">
+          <div class="carousel-caption d-none d-md-block">
+            <h1 class="display-2">Jesteśmy z tobą!</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="mt-auto bg-dark text-white text-center">
+    &copy; 2023 Ja programista made with <3 by Hubert
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="JS.js"></script>
+
 </body>
 </html>
